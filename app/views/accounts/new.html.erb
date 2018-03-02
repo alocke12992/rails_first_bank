@@ -1,2 +1,10 @@
-<h1>Accounts#new</h1>
-<p>Find me in app/views/accounts/new.html.erb</p>
+<h1>Add Account</h1>
+<%= form_for @account do |f| %> 
+  <%= f.label :name %>
+  <%= f.text_field :name %>
+  <br /> 
+  <%= f.label :balance %> 
+  <%= f.text_field :balance, type: 'number' min: 0 %> 
+  <br /> 
+  <%= f.submit %> 
+<% end %> 
