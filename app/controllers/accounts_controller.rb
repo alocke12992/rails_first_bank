@@ -1,38 +1,41 @@
 class AccountsController < ApplicationController
+
   def index
-    @accounts = current_user.accounts 
+    @accounts = current_user.accounts
   end
 
   def show
   end
 
   def new
-    @account = Account.new(params[:id])
+    @account = Account.new
   end
 
-  def create 
+  def create
     @account = current_user.accounts.new(account_params)
+    if @account.save
+      flash[:success] = 'Account Created!'
+      redirect_to accounts_path
+    else
+      flash[:error] = "Error: #{@account.errors.full_messages.join("/n")}"
+      render :new
+    end
+  end
 
-    if @account.save 
-      redirect_to accounts_path 
-    else 
-      render :new 
-    end 
+  def update
+  end
 
-  end 
+  def destroy
+  end
 
   def edit
   end
 
-  def update
-  end 
+  private
 
-  def destroy 
-  end 
-
-  private 
-    def account_params 
-      params.require(:account).permit(:name, :balance)
-    end 
-
+  def account_params
+    params.require(:account).permit(:name, :balance)
+  end
 end
+
+flash = { success: 'It worked', error: 'It did not work'}
