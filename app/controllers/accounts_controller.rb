@@ -23,9 +23,16 @@ class AccountsController < ApplicationController
   end
 
   def update
+    if @account.update(account_params)
+      redirect_to accounts_path
+    else 
+      render :edit
+    end 
   end
 
   def destroy
+    @account.destroy 
+    redirect_to accounts_path
   end
 
   def edit
@@ -33,9 +40,13 @@ class AccountsController < ApplicationController
 
   private
 
-  def account_params
-    params.require(:account).permit(:name, :balance)
-  end
+    def account_params
+      params.require(:account).permit(:name, :balance)
+    end
+
+    def set_account 
+      @account = current_user.accounts.find(params[:id])
+    end
 end
 
 flash = { success: 'It worked', error: 'It did not work'}
